@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <script>
+        // This function stops non integer values being input
+        function allowNumbersOnly(e) {
+            //This checks the corresponding keyCode value for each e passed through it
+            var code = (e.which) ? e.which : e.keyCode;
+            if (code > 31 && (code < 48 || code > 57)) {
+                e.preventDefault();
+            }
+        }
+
+        //This function calculates the indiction
+        function indiction(){
+            //parseInt is required, otherwise the value is read as a string
+            var indiction = (parseInt(document.getElementById("year").value) +3) %15;
+            if(indiction == 0){
+                indiction = 15;
+            }
+            var html = "Indiction: " + indiction;
+            document.getElementById('indiction').innerHTML = html;
+        }
+
+
+        </script>
+
+        <style>
+        #rectangle{
+            height: 400px;
+            width: 800px;
+            background-color: yellow;
+        }
+
+        #indiction{
+            background-color: blue;
+        }
+        </style>
+
+
+    </head>
+
+    <body>
+        </div id='rectangle'></div>
+        Enter year: <input id="year" onkeypress="allowNumbersOnly(event)" div = "enterYear" />
+        <button type = 'button' onclick="indiction()" div = "Calculate" >Calculate Indiction</button>
+        <div id='indiction'></div>
+    </body>
+
+
+</html>
