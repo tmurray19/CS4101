@@ -50,12 +50,12 @@
             if(indiction == 0){
                 indiction = 15;
             }
-            var ind = ordinal_suffix_of(indiction) + " Indiction";
+            var ind = y + " is the " +  ordinal_suffix_of(indiction) + " Indiction.";
             document.getElementById('indiction').innerHTML = ind;
 
             //Epact calculation
             var epact = (((y%19)*11) %30);
-            var ep = "Epact: " + epact;
+            var ep = "The age of the Moon on the 22nd of March (the Epact) is " + epact + '.';
             document.getElementById('epact').innerHTML = ep;
 
             //Concurrent calculation
@@ -63,7 +63,7 @@
             if (concurrent == 0){
                 concurrent = 7;
             }
-            var con = "Concurrent: " + concurrent + " (which is a " + (weekday[concurrent-1]) + ")";
+            var con = "The 24th of March (the Concurrent) is a "+ (weekday[concurrent-1]) + ".";
             document.getElementById('concurrent').innerHTML = con;
 
             //Lunar Cycle calculation
@@ -71,7 +71,7 @@
             if (lc == 0){
                 lc = 19;
             }
-            var lc = "Lunar Cycle: " + luncyc;
+            var lc = y + " is the " + ordinal_suffix_of(luncyc) + " year of the 19-year Lunar Cycle.";
             document.getElementById('lunarCycle').innerHTML = lc;
 
             //Caluclating the month for the easter full moon
@@ -82,7 +82,7 @@
             else{
                 easterFullMoonMonth="March";
             }
-            document.getElementById('easterFullMoon').innerHTML = "The full moon that determines easter falls in " + easterFullMoonMonth;
+            //document.getElementById('easterFullMoon').innerHTML = "The full moon that determines easter falls on the " + ordinal_suffix_of(l14) + " of " + easterFullMoonMonth + '.';
 
             //Calculating Lunar 14
             var l14;
@@ -92,11 +92,11 @@
             else{
                 l14 = 36-epact;
             }
-            document.getElementById('lunar14').innerHTML = "Lunar 14 falls on the " + ordinal_suffix_of(l14);
+            //document.getElementById('easterFullMoon').innerHTML = "The Full Moon that determines Easter falls on the " + ordinal_suffix_of(l14) + " of " + easterFullMoonMonth + '(a ' + weekday[pascMoon-1] + ').';
 
             //Calculating Pascal Moon (& related day)
             var pascMoon;
-            if (easterFullMoonMonth="March"){
+            if (easterFullMoonMonth=="March"){
                 //lunar 14 + concurrent + 4 mod 7
                 pascMoon = (l14 + concurrent + 4)%7;
             }
@@ -106,7 +106,8 @@
             if(pascMoon==0){
                 pascMoon = 7;
             }
-            document.getElementById('pascalMoon').innerHTML = "The pascal moon day is " + pascMoon + ", which is a " + weekday[pascMoon-1];
+            //document.getElementById('pascalMoon').innerHTML = "The Pascal Moon day is " + pascMoon + ", which is a " + weekday[pascMoon-1] + '.';
+            document.getElementById('easterFullMoon').innerHTML = "The Full Moon that determines Easter falls on the " + ordinal_suffix_of(l14) + " of " + easterFullMoonMonth + ' (a ' + weekday[pascMoon-1] + ').';
 
             //Calculating Month of Easter
             var eMonth = "March";
@@ -114,16 +115,24 @@
             //Calculating date of Easter
             //((l14+(8-pascMoon))%31)
             var eDate = (l14+(8-pascMoon))%31;
-            if(eDate>8){
+            if(easterFullMoonMonth == "April"){
+                eMonth = "April";
+            }
+            if(eDate<8){
                 eMonth = "April";
             }
 
-            document.getElementById('easterDate').innerHTML = "Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth;
-
-
+            document.getElementById('easterDate').innerHTML = "Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '.';
 
             //Calculating Lunar Age
-
+            var lunAge;
+            if(easterFullMoonMonth=="March" && eMonth=="April"){
+                lunAge = (14 + (31 - l14) + eDate );
+            }
+            else{
+                lunAge = (14 + (eDate - l14));
+            }
+            document.getElementById('lunarAge').innerHTML = "The Lunar Age is " + lunAge + '.';
         }
 
 
@@ -137,12 +146,8 @@
             background-color: #CFCECE;
         }
 
-        #indiction{
-            padding-top: 5px;
-        }
-
-        #epact{
-            padding-top: 5px;
+        #easterDate{
+            font-weight: Bold;
         }
         </style>
 
@@ -161,9 +166,7 @@
             <div id='easterFullMoon'></div>
             <div id='lunar14'></div>
             <div id='pascalMoon'></div>
-            <div id='pascalMoonDay'></div>
             <div id='easterDate'></div>
-            <div id='easterMonth'></div>
             <div id='lunarAge'></div>
         </div>
     </body>
