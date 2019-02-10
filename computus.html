@@ -146,8 +146,16 @@
             background-color: #CFCECE;
         }
 
+        #indiction{
+            padding-top: 10px;
+        }
+
         #easterDate{
             font-weight: Bold;
+        }
+
+        div{
+            padding-top: 3px;
         }
         </style>
 
@@ -157,6 +165,7 @@
     <body>
         <div id='rectangle'>
             <H1>Dionysius' Easter Table</H1>
+            <H3>These calculations are based on the Easter Table of Dionysius Exiguus. A year is input, and various relevant data is returned, including the calculation of Easter.</H3>
             Enter year:<input id="year" onkeypress="allowNumbersOnly(event)" div = "enterYear" />
             <button type = 'button' onclick="easterDate()" div = "Calculate">Calculate Easter</button>
             <div id='indiction'></div>
@@ -164,8 +173,8 @@
             <div id='concurrent'></div>
             <div id='lunarCycle'></div>
             <div id='easterFullMoon'></div>
-            <div id='lunar14'></div>
-            <div id='pascalMoon'></div>
+            <!--<div id='lunar14'></div>
+            <div id='pascalMoon'></div>-->
             <div id='easterDate'></div>
             <div id='lunarAge'></div>
         </div>
