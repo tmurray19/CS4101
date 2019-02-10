@@ -2,9 +2,10 @@
 <html>
 
     <head>
-
         <script>
-        // This function stops non integer values being input
+
+        //(AD(mod 19)*11)mod 30
+        //This function stops non integer values being input
         function allowNumbersOnly(e) {
             //This checks the corresponding keyCode value for each e passed through it
             var code = (e.which) ? e.which : e.keyCode;
@@ -13,29 +14,135 @@
             }
         }
 
+        //For Calculating ordinal suffix (th, rd, nd)
+        function ordinal_suffix_of(i) {
+            var j = i % 10, k = i % 100;
+            if (j == 1 && k != 11) {
+                return i + "st";
+            }
+            if (j == 2 && k != 12) {
+                return i + "nd";
+            }
+            if (j == 3 && k != 13) {
+                return i + "rd";
+            }
+            return i + "th";
+        }
+
+
         //This function calculates the indiction
-        function indiction(){
+        function easterDate(){
             //parseInt is required, otherwise the value is read as a string
-            var indiction = (parseInt(document.getElementById("year").value) +3) %15;
+            var y = parseInt(document.getElementById("year").value);
+
+            //Creating an array for the days of the week
+            var weekday = new Array(7);
+            weekday[0] = "Sunday";
+            weekday[1] = "Monday";
+            weekday[2] = "Tuesday";
+            weekday[3] = "Wednesday";
+            weekday[4] = "Thursday";
+            weekday[5] = "Friday";
+            weekday[6] = "Saturday";
+
+            //Indiction calculation
+            var indiction = (y+3)%15;
             if(indiction == 0){
                 indiction = 15;
             }
-            var html = "Indiction: " + indiction;
-            document.getElementById('indiction').innerHTML = html;
+            var ind = ordinal_suffix_of(indiction) + " Indiction";
+            document.getElementById('indiction').innerHTML = ind;
+
+            //Epact calculation
+            var epact = (((y%19)*11) %30);
+            var ep = "Epact: " + epact;
+            document.getElementById('epact').innerHTML = ep;
+
+            //Concurrent calculation
+            var concurrent = Math.floor((y + (y/4) +4)%7);
+            if (concurrent == 0){
+                concurrent = 7;
+            }
+            var con = "Concurrent: " + concurrent + " (which is a " + (weekday[concurrent-1]) + ")";
+            document.getElementById('concurrent').innerHTML = con;
+
+            //Lunar Cycle calculation
+            var luncyc = ((y-2)%19);
+            if (lc == 0){
+                lc = 19;
+            }
+            var lc = "Lunar Cycle: " + luncyc;
+            document.getElementById('lunarCycle').innerHTML = lc;
+
+            //Caluclating the month for the easter full moon
+            var easterFullMoonMonth;
+            if(epact>15 || epact<5){
+                easterFullMoonMonth="April";
+            }
+            else{
+                easterFullMoonMonth="March";
+            }
+            document.getElementById('easterFullMoon').innerHTML = "The full moon that determines easter falls in " + easterFullMoonMonth;
+
+            //Calculating Lunar 14
+            var l14;
+            if(easterFullMoonMonth == "April"){
+                l14 = (35-epact)%30;
+            }
+            else{
+                l14 = 36-epact;
+            }
+            document.getElementById('lunar14').innerHTML = "Lunar 14 falls on the " + ordinal_suffix_of(l14);
+
+            //Calculating Pascal Moon (& related day)
+            var pascMoon;
+            if (easterFullMoonMonth="March"){
+                //lunar 14 + concurrent + 4 mod 7
+                pascMoon = (l14 + concurrent + 4)%7;
+            }
+            else{
+                pascMoon = (l14 + concurrent)%7;
+            }
+            if(pascMoon==0){
+                pascMoon = 7;
+            }
+            document.getElementById('pascalMoon').innerHTML = "The pascal moon day is " + pascMoon + ", which is a " + weekday[pascMoon-1];
+
+            //Calculating Month of Easter
+            var eMonth = "March";
+
+            //Calculating date of Easter
+            //((l14+(8-pascMoon))%31)
+            var eDate = (l14+(8-pascMoon))%31;
+            if(eDate>8){
+                eMonth = "April";
+            }
+
+            document.getElementById('easterDate').innerHTML = "Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth;
+
+
+
+            //Calculating Lunar Age
+
         }
+
 
 
         </script>
 
         <style>
         #rectangle{
-            height: 400px;
-            width: 800px;
-            background-color: yellow;
+            height:400px;
+            width:800px;
+            background-color: #CFCECE;
         }
 
         #indiction{
-            background-color: blue;
+            padding-top: 5px;
+        }
+
+        #epact{
+            padding-top: 5px;
         }
         </style>
 
@@ -43,10 +150,22 @@
     </head>
 
     <body>
-        </div id='rectangle'></div>
-        Enter year: <input id="year" onkeypress="allowNumbersOnly(event)" div = "enterYear" />
-        <button type = 'button' onclick="indiction()" div = "Calculate" >Calculate Indiction</button>
-        <div id='indiction'></div>
+        <div id='rectangle'>
+            <H1>Dionysius' Easter Table</H1>
+            Enter year:<input id="year" onkeypress="allowNumbersOnly(event)" div = "enterYear" />
+            <button type = 'button' onclick="easterDate()" div = "Calculate">Calculate Easter</button>
+            <div id='indiction'></div>
+            <div id='epact'></div>
+            <div id='concurrent'></div>
+            <div id='lunarCycle'></div>
+            <div id='easterFullMoon'></div>
+            <div id='lunar14'></div>
+            <div id='pascalMoon'></div>
+            <div id='pascalMoonDay'></div>
+            <div id='easterDate'></div>
+            <div id='easterMonth'></div>
+            <div id='lunarAge'></div>
+        </div>
     </body>
 
 
