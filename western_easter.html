@@ -13,20 +13,6 @@
                 }
             }
 
-            var months = new Array(12);
-            months[0] = "January";
-            months[1] = "February";
-            months[2] = "March";
-            months[3] = "April";
-            months[4] = "May";
-            months[5] = "June";
-            months[6] = "July";
-            months[7] = "August";
-            months[8] = "September";
-            months[9] = "Octo66ber";
-            months[10] = "November";
-            months[11] = "December";
-
 
             //For Calculating ordinal suffix (th, rd, nd)
             function ordinal_suffix_of(i) {
@@ -72,7 +58,8 @@
                     month = "March";
                 }
 
-                document.getElementById('modernEasterCalculation').innerHTML = "Easter falls on the " + ordinal_suffix_of(date) + " of " + month + ", " + y + ".";
+                document.getElementById('modernEasterCalculation').innerHTML = "In the current Calendar, Easter falls on the " + ordinal_suffix_of(date) + " of " + month + ", " + y + ".";
+                document.getElementById('oldEasterCalculation').innerHTML = "If we were to consider the old Calendar, then Easter falls on the " + ordinal_suffix_of(date-13) + " of " + month + ", " + y + ".";
             }
 
         </script>
@@ -82,14 +69,6 @@
             height:450px;
             width:800px;
             background-color: #CFCECE;
-        }
-
-        #indiction{
-            padding-top: 10px;
-        }
-
-        #easterDate{
-            font-weight: Bold;
         }
 
         div{
@@ -109,6 +88,7 @@
             Enter year:<input id="year" onkeypress="allowNumbersOnly(event)"/>
             <button type = 'button' onclick="easter()" div = "Calculate">Calculate Easter</button>
             <div id='modernEasterCalculation'></div>
+            <div id='oldEasterCalculation'></div>
         </div>
     </body>
 
