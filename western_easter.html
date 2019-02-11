@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+
+            //(AD(mod 19)*11)mod 30
+            //This function stops non integer values being input
+            function allowNumbersOnly(e) {
+                //This checks the corresponding keyCode value for each e passed through it
+                var code = (e.which) ? e.which : e.keyCode;
+                if (code > 31 && (code < 48 || code > 57)) {
+                    e.preventDefault();
+                }
+            }
+
+            var months = new Array(12);
+            months[0] = "January";
+            months[1] = "February";
+            months[2] = "March";
+            months[3] = "April";
+            months[4] = "May";
+            months[5] = "June";
+            months[6] = "July";
+            months[7] = "August";
+            months[8] = "September";
+            months[9] = "Octo66ber";
+            months[10] = "November";
+            months[11] = "December";
+
+
+            //For Calculating ordinal suffix (th, rd, nd)
+            function ordinal_suffix_of(i) {
+                var j = i % 10, k = i % 100;
+                if (j == 1 && k != 11) {
+                    return i + "st";
+                }
+                if (j == 2 && k != 12) {
+                    return i + "nd";
+                }
+                if (j == 3 && k != 13) {
+                    return i + "rd";
+                }
+                return i + "th";
+            }
+
+            function easter(){
+                //Reading year from user
+                var y = parseInt(document.getElementById("year").value);
+                //Lunar Cycle
+                var luncyc = y%19;
+                //Bitshifting year
+                var bit = y >> 2;
+                var floor = Math.floor(bit/25+1);
+                var d = (floor*3) >> 2;
+                /*
+                 e = ((a * 19) - ((c * 8 + 5) // 25) + d + 15) % 30
+                 e += (29578 - a - e * 32) >> 10
+                 e -= ((year % 7) + b - d + e + 2) % 7
+                 d = e >> 5
+                 day = e - d * 31
+                 month = d + 3
+                 return year, month, day
+                */
+            //      var e = ((a * 19) - ((c * 8 + 5) / 25) + d + 15) % 30
+                var e = ((luncyc*19) - Math.floor((floor*8+5)/25) + d + 15) % 30;
+                e += (29578 - luncyc - e * 32) >> 10;
+                e -= ((y%7) + bit - d + e + 2) % 7;
+                d = e >> 5;
+                var date = e - d * 31;
+                var month = "April";
+                if(d + 3 == 3){
+                    month = "March";
+                }
+
+                document.getElementById('modernEasterCalculation').innerHTML = "Easter falls on the " + ordinal_suffix_of(date) + " of " + month + ", " + y + ".";
+            }
+
+        </script>
+
+        <style>
+        #rectangle{
+            height:450px;
+            width:800px;
+            background-color: #CFCECE;
+        }
+
+        #indiction{
+            padding-top: 10px;
+        }
+
+        #easterDate{
+            font-weight: Bold;
+        }
+
+        div{
+            padding-top: 3px;
+        }
+
+        </style>
+
+
+    </head>
+
+    <body>
+        <div id='rectangle'>
+            <H1>Western Easter Calculator</H1>
+            <H3></H3>
+            <H4>This is a suppliment to my program which calculates Easter based on the Easter Table of Dionysius Exiguus. To find that, please click <a href = "http://www.taidghmurray.ie/dionysius.html">here.</a></H4>
+            Enter year:<input id="year" onkeypress="allowNumbersOnly(event)"/>
+            <button type = 'button' onclick="easter()" div = "Calculate">Calculate Easter</button>
+            <div id='modernEasterCalculation'></div>
+        </div>
+    </body>
+
+
+</html>
