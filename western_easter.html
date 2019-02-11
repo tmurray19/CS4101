@@ -38,16 +38,6 @@
                 var bit = y >> 2;
                 var floor = Math.floor(bit/25+1);
                 var d = (floor*3) >> 2;
-                /*
-                 e = ((a * 19) - ((c * 8 + 5) // 25) + d + 15) % 30
-                 e += (29578 - a - e * 32) >> 10
-                 e -= ((year % 7) + b - d + e + 2) % 7
-                 d = e >> 5
-                 day = e - d * 31
-                 month = d + 3
-                 return year, month, day
-                */
-            //      var e = ((a * 19) - ((c * 8 + 5) / 25) + d + 15) % 30
                 var e = ((luncyc*19) - Math.floor((floor*8+5)/25) + d + 15) % 30;
                 e += (29578 - luncyc - e * 32) >> 10;
                 e -= ((y%7) + bit - d + e + 2) % 7;
