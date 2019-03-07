@@ -17,4 +17,3 @@ def IanTaylorEasterJscr(year):
 
 
 print(IanTaylorEasterJscr(2019))
-input()

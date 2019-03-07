@@ -119,7 +119,7 @@
                     eMonth = "April";
                 }
 
-                document.getElementById('easterDate').innerHTML = "In the Old Style Orthodox Calendar, Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '.';
+                document.getElementById('easterDate').innerHTML = "In the Old Style (Julian) Orthodox Calendar, Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '.';
 
                 var modernEDate = eDate+13;
                 var modernEMonth = 'April';
@@ -127,7 +127,7 @@
                     modernEDate -= 30;
                     modernEMonth = 'May';
                 }
-                document.getElementById('modernEasterDate').innerHTML = "In the New Style Orthodox Calendar, the Easter Date falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '.';
+                document.getElementById('modernEasterDate').innerHTML = "In the New Style (Gregorian) Orthodox Calendar, the Easter Date falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '.';
 
                 //Calculating Lunar Age
                 var lunAge;
@@ -145,6 +145,8 @@
                 height:450px;
                 width:800px;
                 background-color: #CFCECE;
+                opacity: 0.3;
+                filter: alpha(opacity=30); /* For IE8 and earlier */
             }
 
             #indiction{
