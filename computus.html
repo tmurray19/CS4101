@@ -2,6 +2,9 @@
 <html>
     <head>
         <script>
+            // Define a boolean variable to change whether user wants simplifed or detailed calculations
+            var simplified = true;
+
             //(AD(mod 19)*11)mod 30
             //This function stops non integer values being input
             function allowNumbersOnly(e) {
@@ -28,7 +31,7 @@
             }
 
             //This function calculates the indiction
-            function easterDate(){
+            function easterDate(simplified){
                 //parseInt is required, otherwise the value is read as a string
                 var y = parseInt(document.getElementById("year").value);
 
@@ -47,29 +50,24 @@
                 if(indiction == 0){
                     indiction = 15;
                 }
-                var ind = y + " is the " +  ordinal_suffix_of(indiction) + " Indiction.";
-                document.getElementById('indiction').innerHTML = ind;
+
 
                 //Epact calculation
                 var epact = (((y%19)*11) %30);
-                var ep = "The age of the Moon on the 22nd of March (the Epact) is " + epact + '.';
-                document.getElementById('epact').innerHTML = ep;
 
                 //Concurrent calculation
                 var concurrent = Math.floor((y + (y/4) +4)%7);
                 if (concurrent == 0){
                     concurrent = 7;
                 }
-                var con = "The 24th of March (the Concurrent) is a "+ (weekday[concurrent-1]) + ".";
-                document.getElementById('concurrent').innerHTML = con;
+
 
                 //Lunar Cycle calculation
                 var luncyc = ((y-2)%19);
                 if (lc == 0){
                     lc = 19;
                 }
-                var lc = y + " is the " + ordinal_suffix_of(luncyc) + " year of the 19-year Lunar Cycle.";
-                document.getElementById('lunarCycle').innerHTML = lc;
+
 
                 //Caluclating the month for the easter full moon
                 var easterFullMoonMonth;
@@ -104,7 +102,6 @@
                     pascMoon = 7;
                 }
                 //document.getElementById('pascalMoon').innerHTML = "The Pascal Moon day is " + pascMoon + ", which is a " + weekday[pascMoon-1] + '.';
-                document.getElementById('easterFullMoon').innerHTML = "The Full Moon that determines Easter falls on the " + ordinal_suffix_of(l14) + " of " + easterFullMoonMonth + ' (a ' + weekday[pascMoon-1] + ').';
 
                 //Calculating Month of Easter
                 var eMonth = "March";
@@ -119,15 +116,14 @@
                     eMonth = "April";
                 }
 
-                document.getElementById('easterDate').innerHTML = "In the Old Style Orthodox Calendar, Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '.';
 
-                var modernEDate = eDate+13;
-                var modernEMonth = 'April';
-                if(modernEDate > 30){
-                    modernEDate -= 30;
-                    modernEMonth = 'May';
-                }
-                document.getElementById('modernEasterDate').innerHTML = "In the New Style Orthodox Calendar, the Easter Date falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '.';
+                //var modernEDate = eDate+13;
+                //var modernEMonth = 'April';
+                //if(modernEDate > 30){
+                    //modernEDate -= 30;
+                    //modernEMonth = 'May';
+                //}
+                //document.getElementById('modernEasterDate').innerHTML = "In the New Style Orthodox Calendar, the Easter Date falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '.';
 
                 //Calculating Lunar Age
                 var lunAge;
@@ -137,7 +133,30 @@
                 else{
                     lunAge = (14 + (eDate - l14));
                 }
-                document.getElementById('lunarAge').innerHTML = "The Lunar Age is " + lunAge + '.';
+                if(simplified){
+                  document.getElementById('easterDate').innerHTML = "In the Old Style Orthodox Calendar, Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '.';
+
+                }
+                else{
+
+                  var ind = y + " is the " +  ordinal_suffix_of(indiction) + " Indiction.";
+                  document.getElementById('indiction').innerHTML = ind;
+
+                  var ep = "The age of the Moon on the 22nd of March (the Epact) is " + epact + '.';
+                  document.getElementById('epact').innerHTML = ep;
+
+                  var con = "The 24th of March (the Concurrent) is a "+ (weekday[concurrent-1]) + ".";
+                  document.getElementById('concurrent').innerHTML = con;
+
+                  var lc = y + " is the " + ordinal_suffix_of(luncyc) + " year of the 19-year Lunar Cycle.";
+                  document.getElementById('lunarCycle').innerHTML = lc;
+
+
+                  document.getElementById('easterFullMoon').innerHTML = "The Full Moon that determines Easter falls on the " + ordinal_suffix_of(l14) + " of " + easterFullMoonMonth + ' (a ' + weekday[pascMoon-1] + ').';
+                  document.getElementById('easterDate').innerHTML = "In the Old Style Orthodox Calendar, Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '.';
+                  document.getElementById('lunarAge').innerHTML = "The Lunar Age is " + lunAge + '.';
+
+                }
             }
         </script>
         <style>
@@ -167,7 +186,8 @@
             <H3>These calculations are based on the Easter Table of Dionysius Exiguus. A year is input, and various relevant data is returned, including the calculation of Easter.</H3>
             <H4>These calculations are in line with the works of Dionysius Exiguus, which means they are working of the old, Julian Calendar. Furthermore, the calculations of the past were largely done with the Orthodox calendar in mind. The date of Easter returned reflects that, returing the Orthodox date for Easter. If you wish to see a western calculation for Easter, please click <a href = "http://www.taidghmurray.ie/western_easter.html">here.</a></H4>
             Enter year:<input id="year" onkeypress="allowNumbersOnly(event)"/>
-            <button type = 'button' onclick="easterDate()" div = "Calculate">Calculate Easter</button>
+            <button type = 'button' onclick="easterDate(simplified = true)" div = "Calculate">Simplifed Easter</button>
+            <button type = 'button' onclick="easterDate(simplified = false)" div = "Calculate">Calculate Easter</button>
             <div id='indiction'></div>
             <div id='epact'></div>
             <div id='concurrent'></div>
