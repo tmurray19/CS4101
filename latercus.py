@@ -1,5 +1,7 @@
 """
 Some pythonic testing of latercus
+http://adsbit.harvard.edu//full/1993JHA....24..204M/0000204.000.html
+
 
 """
 # Hard coded from manuscripts
@@ -64,9 +66,7 @@ print(len(epact))
 
 print(smart_epact)
 print(len(smart_epact))
-"""
 
-"""
 for i in range(len(epact)):
     if epact[i] == smart_epact[i]:
         print("OK")
@@ -74,14 +74,16 @@ for i in range(len(epact)):
         print("Not Ok")
 """
 
-for e in range(len(smart_epact)):
-    h = smart_epact[e]
-    print("Epact: ", h)
-    calc1 = 45-h
-    print("Paschal Full Moon: ", calc1)
 
+for e in range(len(smart_epact)):
     y = year[e]
     print("Year: ", y)
+
+    h = smart_epact[e]
+    print("Epact: ", h)
+
+    calc1 = 45-h
+    print("Paschal Full Moon: ", calc1)
 
     f = feria[e]
     feb = 28
@@ -108,11 +110,10 @@ for e in range(len(smart_epact)):
             calc1 = calc1%31
         print("calc1: ", calc1)
 
+    print()
 
-
-
-
-
+"""
 print(feria)
 print(year)
 print(index)
+"""
