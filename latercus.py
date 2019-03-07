@@ -46,6 +46,16 @@ def epacter(e, idx):
         epact_pre = 30
     return epact_pre
 
+def marchEpact(e, year):
+    feb = 28
+    if y%4==0:
+        feb = 29
+    e = e + 31 + feb
+    print("e: ", e)
+    march_epact = e%30
+    if march_epact==0:
+        march_epact = 30
+    return march_epact
 
 for i in range(438, 522):
     year.append(i)
@@ -80,7 +90,11 @@ for e in range(len(smart_epact)):
     print("Year: ", y)
 
     h = smart_epact[e]
-    print("Epact: ", h)
+    print("Epact (Jan 1st): ", h)
+
+    #m_e = marchEpact(h, year)
+    m_e = h
+    print("Epact (March 1st): ", m_e)
 
     calc1 = 45-h
     print("Paschal Full Moon: ", calc1)
@@ -91,6 +105,8 @@ for e in range(len(smart_epact)):
         feb = 29
 
     f = ((f+31+feb+calc1)%7)
+    f = ((f+31+feb+24)%7)
+
     if f==0:
         f = 7
 
