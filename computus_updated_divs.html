@@ -108,6 +108,9 @@
                 //Calculating date of Easter
                 //((l14+(8-pascMoon))%31)
                 var eDate = (l14+(8-pascMoon))%31;
+                if(eDate == 0){
+                    eDate = 1;
+                }
                 if(easterFullMoonMonth == "April"){
                     eMonth = "April";
                 }
@@ -115,18 +118,6 @@
                     eMonth = "April";
                 }
 
-
-                //var modernEDate = eDate+13;
-                //var modernEMonth = 'April';
-                //if(modernEDate > 30){
-                    //modernEDate -= 30;
-                    //modernEMonth = 'May';
-                //}
-                //document.getElementById('modernEasterDate').innerHTML = "In the New Style Orthodox Calendar, the Easter Date falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '.';
-
-
-
-                // This needs to be updated. 13 only holds while the year
 
                 var drift = Math.floor(y/100) - Math.floor(y/400) - 2;
 
@@ -210,8 +201,6 @@
             <button type = 'button' onclick="easterDate(simplified = true)" div = "Calculate">Simplifed Easter</button>
             <button type = 'button' onclick="easterDate(simplified = false)" div = "Calculate">Calculate Easter</button>
             <div id='date'></div>
-
-
         </div>
     </body>
 </html>
