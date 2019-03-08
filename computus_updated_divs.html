@@ -51,7 +51,6 @@
                     indiction = 15;
                 }
 
-
                 //Epact calculation
                 var epact = (((y%19)*11) %30);
 
@@ -64,8 +63,8 @@
 
                 //Lunar Cycle calculation
                 var luncyc = ((y-2)%19);
-                if (lc == 0){
-                    lc = 19;
+                if (luncyc == 0){
+                    luncyc = 19;
                 }
 
 
@@ -125,15 +124,18 @@
                 //}
                 //document.getElementById('modernEasterDate').innerHTML = "In the New Style Orthodox Calendar, the Easter Date falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '.';
 
-                document.getElementById('easterDate').innerHTML = "In the Old Style (Julian) Orthodox Calendar, Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '.';
 
-                var modernEDate = eDate+13;
+
+                // This needs to be updated. 13 only holds while the year
+
+                var drift = Math.floor(y/100) - Math.floor(y/400) - 2;
+
+                var modernEDate = eDate+drift;
                 var modernEMonth = 'April';
                 if(modernEDate > 30){
                     modernEDate -= 30;
                     modernEMonth = 'May';
                 }
-                document.getElementById('modernEasterDate').innerHTML = "In the New Style (Gregorian) Orthodox Calendar, the Easter Date falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '.';
 
                 //Calculating Lunar Age
                 var lunAge;
@@ -143,39 +145,46 @@
                 else{
                     lunAge = (14 + (eDate - l14));
                 }
-                if(simplified){
-                  document.getElementById('easterDate').innerHTML = "In the Old Style Orthodox Calendar, Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '.';
 
+
+                var old = "In the Old Style Orthodox Calendar, Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '. <br/>';
+
+                var newD = "There was no new style calendar before 1582. \n";
+
+                if(y>1582){
+                     newD = "In the New Style (Gregorian) Orthodox Calendar, the Easter Date falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '. <br/>';
+                }
+
+
+                if(simplified){
+                    document.getElementById('date').innerHTML = old + newD;
                 }
                 else{
 
-                  var ind = y + " is the " +  ordinal_suffix_of(indiction) + " Indiction.";
-                  document.getElementById('indiction').innerHTML = ind;
+                  var ind = y + " is the " +  ordinal_suffix_of(indiction) + " Indiction. <br/>";
 
-                  var ep = "The age of the Moon on the 22nd of March (the Epact) is " + epact + '.';
-                  document.getElementById('epact').innerHTML = ep;
+                  var ep = "The age of the Moon on the 22nd of March (the Epact) is " + epact + '. <br/>';
 
-                  var con = "The 24th of March (the Concurrent) is a "+ (weekday[concurrent-1]) + ".";
-                  document.getElementById('concurrent').innerHTML = con;
+                  var con = "The 24th of March (the Concurrent) is a "+ (weekday[concurrent-1]) + ". <br/>";
 
-                  var lc = y + " is the " + ordinal_suffix_of(luncyc) + " year of the 19-year Lunar Cycle.";
-                  document.getElementById('lunarCycle').innerHTML = lc;
+                  var lc = y + " is the " + ordinal_suffix_of(luncyc) + " year of the 19-year Lunar Cycle. <br/>";
 
+                  var eFullMoon = "The Full Moon that determines Easter falls on the " + ordinal_suffix_of(l14) + " of " + easterFullMoonMonth + ' (a ' + weekday[pascMoon-1] + '). <br/>';
 
-                  document.getElementById('easterFullMoon').innerHTML = "The Full Moon that determines Easter falls on the " + ordinal_suffix_of(l14) + " of " + easterFullMoonMonth + ' (a ' + weekday[pascMoon-1] + ').';
-                  document.getElementById('easterDate').innerHTML = "In the Old Style Orthodox Calendar, Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '.';
-                  document.getElementById('lunarAge').innerHTML = "The Lunar Age is " + lunAge + '.';
+                  var lun = "The Lunar Age is " + lunAge + '. <br/>';
 
+                  document.getElementById('date').innerHTML = ind + ep+ con + lc + eFullMoon + old + newD + lun;
                 }
             }
+
         </script>
+
         <style>
             #rectangle{
                 height:450px;
                 width:800px;
                 background-color: #CFCECE;
-                opacity: 0.3;
-                filter: alpha(opacity=30); /* For IE8 and earlier */
+
             }
 
             #indiction{
@@ -200,14 +209,9 @@
             Enter year:<input id="year" onkeypress="allowNumbersOnly(event)"/>
             <button type = 'button' onclick="easterDate(simplified = true)" div = "Calculate">Simplifed Easter</button>
             <button type = 'button' onclick="easterDate(simplified = false)" div = "Calculate">Calculate Easter</button>
-            <div id='indiction'></div>
-            <div id='epact'></div>
-            <div id='concurrent'></div>
-            <div id='lunarCycle'></div>
-            <div id='easterFullMoon'></div>
-            <div id='easterDate'></div>
-            <div id='modernEasterDate'></div>
-            <div id='lunarAge'></div>
+            <div id='date'></div>
+
+
         </div>
     </body>
 </html>
