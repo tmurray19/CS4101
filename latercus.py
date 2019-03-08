@@ -100,22 +100,44 @@ for e in range(len(smart_epact)):
     print("Paschal Full Moon: ", calc1)
 
     f = feria[e]
+    print("Jan 1st feria: {}".format(f))
     feb = 28
     if y%4==0:
         feb = 29
 
-    f = ((f+31+feb+calc1)%7)
+    #f = ((f+31+feb+calc1)%7)
+
+    dif = h - 14
+    f = ((f+31+feb)%7)
+    print("difference between {} & 14: {}".format(h,abs(dif)))
+    print("1st March Feria: {}".format(f))
+    if dif>0:
+        lunar14_date = (h + (30-h) + 14)%30
+        f += ((30-h) + 14)%7
+        print(f)
+
+    if dif<0:
+        lunar14_date = h - dif
+        f = ((f+(h-dif))%7)
+    print("L14: {}".format(lunar14_date))
 
     # This 24 value was gotten by taking the 1st March Epact, and adding mod 30 to get 14
-    f = ((f+31+feb+24)%7)
 
     if f==0:
         f = 7
 
-    if f!=7:
-        calc1 += (7-f)
+    #print("Feria on {} (March 1st): {} ".format(h,f))
+    print("Feria on 14: {}".format(f))
 
-    print("Feria: ", f)
+    fer_dif = 8-f
+
+    mon="March"
+    easter = calc1 + fer_dif
+    if easter > 31:
+        mon = "April"
+        easter = easter%31
+
+    print("Easter: {} {}".format(mon, easter))
 
     if calc1 <= 25:
         alt = 74-h
