@@ -105,6 +105,8 @@ for e in range(len(smart_epact)):
         feb = 29
 
     f = ((f+31+feb+calc1)%7)
+
+    # This 24 value was gotten by taking the 1st March Epact, and adding mod 30 to get 14
     f = ((f+31+feb+24)%7)
 
     if f==0:
