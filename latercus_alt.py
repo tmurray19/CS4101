@@ -172,8 +172,8 @@ for e in range(len(smart_epact)):
             if march_fer == 1:
                 get_to_sunday = 0
 
-            # get easter sunday
-            day_of_march += get_to_sunday
+            # get easter sunday (Taking one away solves a discrepency with the table, if the code gets this far, then the days_of_march value is always out by one)
+            day_of_march += get_to_sunday - 1
 
         print("Moon Age: ", 14 + get_to_sunday)
 
