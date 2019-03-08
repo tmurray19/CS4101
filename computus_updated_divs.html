@@ -109,7 +109,7 @@
                 //((l14+(8-pascMoon))%31)
                 var eDate = (l14+(8-pascMoon))%31;
                 if(eDate == 0){
-                    eDate = 1;
+                    eDate = 31;
                 }
                 if(easterFullMoonMonth == "April"){
                     eMonth = "April";
@@ -123,9 +123,12 @@
 
                 var modernEDate = eDate+drift;
                 var modernEMonth = 'April';
-                if(modernEDate > 30){
-                    modernEDate -= 30;
+                if(modernEDate > 31){
+                    modernEDate -= 31;
                     modernEMonth = 'May';
+                    if(y<1601){
+                        modernEMonth = 'April';
+                    }
                 }
 
                 //Calculating Lunar Age
@@ -140,7 +143,7 @@
 
                 var old = "In the Old Style Orthodox Calendar, Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '. <br/>';
 
-                var newD = "There was no new style calendar before 1582. \n";
+                var newD = "The Gregorian Calendar was not widely in use before 1583. <br/>";
 
                 if(y>1582){
                      newD = "In the New Style (Gregorian) Orthodox Calendar, the Easter Date falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '. <br/>';
