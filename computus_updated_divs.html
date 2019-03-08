@@ -125,9 +125,8 @@
                 var modernEMonth = 'April';
                 if(modernEDate > 31){
                     modernEDate -= 31;
-                    modernEMonth = 'May';
-                    if(y<1601){
-                        modernEMonth = 'April';
+                    if(y>1600){
+                        modernEMonth = 'May';
                     }
                 }
 
