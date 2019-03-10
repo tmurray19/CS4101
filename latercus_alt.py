@@ -79,12 +79,15 @@ for e in range(len(smart_epact)):
         print("________________________________EPACT < 14 ________________________")
         day_of_march += 30
         march_fer = (march_fer+30)%7
+        if march_fer ==0:
+            march_fer =7
         print("March 31st Feria = ", march_fer)
         epact_filler = 14-m_e
-
-        next_full_moon = m_e + epact_filler
+        print("Filler: ", epact_filler)
+        #next_full_moon = m_e + epact_filler
         day_of_march += epact_filler
         march_fer = (march_fer + epact_filler)%7
+        print("march_fer: ", march_fer)
         if march_fer == 0:
             march_fer = 7
         get_to_sunday = 8-march_fer

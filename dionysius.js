@@ -164,5 +164,7 @@ function easterDate(simplified){
 
           document.getElementById('date').innerHTML = ind + ep+ con + lc + eFullMoon + old + newD + lun;
         }
+    }else{
+        document.getElementById('date').innerHTML = "Please enter a year.";
     }
 }
