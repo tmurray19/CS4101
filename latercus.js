@@ -94,6 +94,10 @@ function indexer(year){
     return idx;
 }
 
+function negativeMod(n,m){
+    return ((n % m) + m) % m;
+}
+
 // For calculating the Feria (day of) March 1st
 function marchFeria(fer, year){
     // if it's a leap year, february has 29 days
@@ -115,14 +119,51 @@ function march31stFeria(fer){
 
 
 // gives the date and month of Easter
-function monthDetermine(day){
-    var month = " of March.</br>";
+// Also gives related lune
+function easterDetermine(day, ep, year){
+    ep = ep%30;
+    if(ep==0){
+        ep = 30;
+    }
+    if(indexer(year) == 75){
+        ep = 14;
+    }
+    if(indexer(year)== 10){
+        ep = 19;
+    }
+    var epact = ". Its epact is " + ep + ".</br>";
+    var month = " of March";
     if(day>31){
         day -= 31;
-        month = " of April.</br>";
+        month = " of April";
     }
 
-    return " according to the Latercus Easter Table, Easter falls on " + ordinal_suffix_of(day) + month;
+    return " according to the Latercus Easter Table, Easter falls on the " + ordinal_suffix_of(day) + month + epact;
+}
+
+// Gives date and month of Initium
+// Also gives related lune
+function initiumDetermine(day, year, ep){
+    ep = negativeMod((ep-40), 30);
+    var epact = ". Its epact is " + ep + ".</br>";
+    var feb = 28;
+    var lenter = 39;
+    if (year%4==0){
+        feb = 29;
+    }
+    var month = " of March";
+    var init = day - lenter;
+    if(init==0){
+        if(day!=39){
+            init = 1;
+        }
+    }
+    if(init<=0){
+        month = " of february";
+        init = feb - -init;
+    }
+
+    return "The Initium falls on " + ordinal_suffix_of(init) + month + epact;
 }
 
 // moves to next sunday in calendar
@@ -136,7 +177,7 @@ function moveToSunday(fer){
 }
 
 function getDayofFeria(fer){
-    return weekday[fer - 1]
+    return weekday[fer - 1];
 }
 
 
@@ -158,7 +199,7 @@ function tMurrayLatercusTableFormula(simplified){
         var march_fer = marchFeria(jan_fer, y);
 
 
-        var epact_for_year = "The Epact for the year (both January 1st & March 1st), " + y + " is " + ep +".</br>";
+        var epact_for_year = "The Epact for the year (both January 1st & March 1st), " + y + " is " + (ep-1) +". The value we use for calculation is incremeted by one.</br>";
 
         var jan_feria = "The Feria for January's Epact is " + jan_fer + " (a " + getDayofFeria(jan_fer) + ").</br>";
         var mar_feria = "The Feria for March's Epact is " + march_fer + " (a " + getDayofFeria(march_fer) + ").</br></br>";
@@ -188,6 +229,7 @@ function tMurrayLatercusTableFormula(simplified){
         var i = "";
 
         var easter_sunday = "";
+        var initium = "";
         var final_answer = "";
         // If the Epact is smaller than 14:
         if(ep<14){
@@ -214,7 +256,8 @@ function tMurrayLatercusTableFormula(simplified){
             easter_sunday = "Moving forward " + moveToSunday(march_fer) +  " days, we see that Easter Sunday now falls on day " + day_of_march + " of March. In Calendar Terms:</br>";
 
             // Determine if Easter is in April or March and return answer
-            easter_date = monthDetermine(day_of_march);
+            easter_date = easterDetermine(day_of_march, (ep+(day_of_march - 31)), y);
+            initium = initiumDetermine(day_of_march, y, (ep+(day_of_march - 31)) );
         }
         // If Epact IS 14
         if(ep==14){
@@ -228,13 +271,16 @@ function tMurrayLatercusTableFormula(simplified){
             day_of_march += moveToSunday(march_fer);
             easter_sunday = "Easter Sunday now falls on day " + day_of_march + " of March. In Calendar Terms:</br>";
 
-            easter_date = monthDetermine(day_of_march);
+            easter_date = easterDetermine(day_of_march, (ep + moveToSunday(march_fer)), y);
+            initium = initiumDetermine(day_of_march, y, (ep + moveToSunday(march_fer)) );
         }
         // If Epact is greater than 14
         if(ep>14){
             a = "Epact is greater than 14.</br>";
             // Get distance between epact and new cycle
             var reset_epact = 30 - ep;
+
+            var easterEpact;
 
             // Get distance to next Luanr 14 in cycle
             var get_to_14 = reset_epact + 14;
@@ -279,13 +325,17 @@ function tMurrayLatercusTableFormula(simplified){
                 // Move to next Sunday after full moon
                 day_of_march += moveToSunday(march_fer) - 1;
                 i = "Finally, the Sunday that occurs after this Full Moon is on day " + day_of_march + " of March.</br>";
+                easterEpact = too_early_moon_age + get_to_next_14 + (moveToSunday(march_fer));
 
             }else{
                 easter_sunday = "easter_sunday: We find our next Sunday on day " + day_of_march + " of March. This is acceptable within the Latercus rules of when Easter should fall.</br>";
+                easterEpact = ep + get_to_14 + moveToSunday(march_fer);
             }
 
+
             // Define date
-            easter_date = monthDetermine(day_of_march);
+            initium = initiumDetermine(day_of_march, y, easterEpact);
+            easter_date = easterDetermine(day_of_march, easterEpact, y);
 
         }
 
@@ -294,7 +344,7 @@ function tMurrayLatercusTableFormula(simplified){
             document.getElementById('date').innerHTML = final_answer;
         }
         else{
-            document.getElementById('date').innerHTML = begin + epact_for_year + jan_feria + mar_feria + a + b + c + d + e + f + g + h + i +easter_sunday + final_answer;
+            document.getElementById('date').innerHTML = begin + epact_for_year + jan_feria + mar_feria + a + b + c + d + e + f + g + h + i +easter_sunday + initium + final_answer;
         }
     }else{
         document.getElementById('date').innerHTML = "Please enter a year.";

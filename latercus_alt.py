@@ -95,7 +95,7 @@ for e in range(len(smart_epact)):
             get_to_sunday = 0
 
         day_of_march += get_to_sunday
-
+        print("DAY OF MARCH: {}".format(day_of_march))
 
         if(day_of_march)>31:
             mon = "April"
@@ -117,6 +117,7 @@ for e in range(len(smart_epact)):
             get_to_sunday = 0
 
         day_of_march += get_to_sunday
+        print("DAY OF MARCH: {}".format(day_of_march))
 
         if(day_of_march)>31:
             mon = "April"
@@ -150,6 +151,7 @@ for e in range(len(smart_epact)):
             get_to_sunday = 0
         # get easter sunday
         day_of_march += get_to_sunday
+        print("DAY OF MARCH: {}".format(day_of_march))
 
         # if 'easter sunday' is smaller than 26
         # at the very least, need to rethink strategy
@@ -177,6 +179,7 @@ for e in range(len(smart_epact)):
 
             # get easter sunday (Taking one away solves a discrepency with the table, if the code gets this far, then the days_of_march value is always out by one)
             day_of_march += get_to_sunday - 1
+            print("DAY OF MARCH: {}".format(day_of_march+1))
 
         print("Moon Age: ", 14 + get_to_sunday)
 

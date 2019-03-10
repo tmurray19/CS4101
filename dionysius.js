@@ -136,12 +136,12 @@ function easterDate(simplified){
         }
 
 
-        var old = "In the Old Style Orthodox Calendar, Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '. <br/>';
+        var old = "<b>According to Dionysius' Easter Table, the Orthodox Easter falls on the " + ordinal_suffix_of(eDate) + " of " + eMonth + '. <br/>';
 
-        var newD = "The Gregorian Calendar was not widely in use before 1583. <br/>";
+        var newD = "The Gregorian Calendar was not widely in use before 1583. </b><br/>";
 
         if(y>1582){
-             newD = "In the New Style (Gregorian) Orthodox Calendar, the Easter Date falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '. <br/>';
+             newD = "If we were to consider the modern Gregorian calendar, then the Orthodox Easter falls on the " + ordinal_suffix_of(modernEDate) + " of " + modernEMonth + '. </b><br/>';
         }
 
 
