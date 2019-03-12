@@ -147,19 +147,14 @@ function initiumDetermine(day, year, ep){
     ep = negativeMod((ep-40), 30);
     var epact = ". Its epact is " + ep + ".</br>";
     var feb = 28;
-    var lenter = 39;
     if (year%4==0){
         feb = 29;
     }
     var month = " of March";
-    var init = day - lenter;
-    if(init==0){
-        if(day!=39){
-            init = 1;
-        }
-    }
+    var init = day - 39;
+
     if(init<=0){
-        month = " of february";
+        month = " of February";
         init = feb - -init;
     }
 
